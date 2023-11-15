@@ -28,9 +28,38 @@
 // less than and equal to operator
 // db.test.find({age: {$lte: 18}}).sort({age: 1})
 
+// implicit and 
+// db.test.find({gender: "Female",age: {$gt: 18, $lt: 30}}, {age: 1, gender: 1}).sort({age: 1})
 
+// $in => fetch all the docs that matches with the specified values
+/*db.test.find(
+    {
+        gender: "Female",
+        age: { $in: [18, 20, 22, 24, 28, 30] }
+    },
+    { age: 1, gender: 1 })
+    .sort({ age: 1 }) 
+*/
 
+// $nin => not in the specified values 
+/*db.test.find(
+    {
+        gender: "Female",
+        age: { $nin: [18, 20, 22, 24, 28, 30] }
+    },
+    { age: 1, gender: 1 })
+    .sort({ age: 1 }) 
+*/
 
+/*
+db.test.find(
+    {
+        gender: "Female",
+        age: { $nin: [18, 20, 22, 24, 28, 30] },
+        // interests: "Cooking"
+        interests: {$in: ["Cooking", "Gaming"]},
+    },
+    { age: 1, gender: 1, interests: 1 })
+    .sort({ age: 1 }) 
 
-
-
+*/
