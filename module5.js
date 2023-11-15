@@ -151,9 +151,55 @@ db.test.find({
         }
     }
 }).project({ skills: 1 })
+
+// UPDATE Operators
+// $set => updates by replacing prev data
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065") },
+    {
+        $set: {
+            age: 80
+        }
+    }
+)
+
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065") },
+    {
+        $set: {
+           interests : ["Gaming"]
+        }
+    }
+)
+
+// addToSet (array) => adds new value without replacing & doesn't add duplicate
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065") },
+    {
+        $addToSet: {
+           interests : "Cooking"
+        }
+    }
+)
+
+// $each = $addToSet with multiple values
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065") },
+    {
+        $addToSet: {
+           interests : {$each: ["Driving", "Swimming"]}
+        }
+    }
+)
+
+// $push = adds value but doesn't care if duplicate
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065") },
+    {
+        $push: {
+           interests : {$each: ["Driving", "Swimming"]}
+        }
+    }
+)
 */
-
-
-
-
 
