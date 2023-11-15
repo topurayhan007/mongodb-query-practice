@@ -128,10 +128,32 @@ db.test.find({un: {$exists: true}})
 
 // $type
 db.test.find({age: {$type: "string"}}).project({age: 1})
+db.test.find({company: {$type: "null"}}).project({company: 1})
 
-*/
 // array $size 
 db.test.find({friends: {$size: 0}}).project({friends:1})
+
+// $all  
+db.test.find({interests: "Cooking"}).project({interests: 1})
+db.test.find({"interests.2": "Cooking"}).project({interests: 1})
+db.test.find(
+    {
+        interests:
+            { $all: ["Gaming", "Travelling", "Cooking"] }
+    ).project({ interests: 1 })
+    
+// $elemMatch 
+db.test.find({
+    skills: {
+        $elemMatch: {
+            name: "JAVASCRIPT",
+            level: "Intermidiate"
+        }
+    }
+}).project({ skills: 1 })
+*/
+
+
 
 
 
