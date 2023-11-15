@@ -259,4 +259,14 @@ db.test.updateOne(
         }
     }
 )
+
+// Delete
+// deleteOne = delete one doc
+db.test.deleteOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000064") }
+)
+
+// $drop = delete a show collections
+db.test2.drop({writeConcern: {w: 1}})
 */
+
