@@ -118,14 +118,20 @@ db.test.find({
     .sort({ age: 1 })
 
 
-// $not  
+// $not
 // { field: { $not: { <operator-expression> } } }
 
-// $exists  
+// $exists
 db.test.find({age: {$exists: true}})
 db.test.find({phone: {$exists: true}})
 db.test.find({un: {$exists: true}})
 
+// $type
+db.test.find({age: {$type: "string"}}).project({age: 1})
+
 */
+// array $size 
+db.test.find({friends: {$size: 0}}).project({friends:1})
+
 
 
