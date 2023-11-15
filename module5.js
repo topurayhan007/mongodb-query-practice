@@ -201,5 +201,23 @@ db.test.updateOne(
         }
     }
 )
+
+// Update by removing
+// $unset
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065") },
+    { $unset: { birthday: 1 } }
+)
+
+// $pop = removes an elem from the array depending on (1, -1), -1 removes from front and 1 from back
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065") },
+    { $pop: { interests: 1 } }
+)
 */
 
+// $pull = remove an specific elem from array
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065") },
+    { $pull:  {interests : "Swimming" }}
+)
