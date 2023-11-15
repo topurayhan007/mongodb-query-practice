@@ -214,10 +214,49 @@ db.test.updateOne(
     { "_id": ObjectId("6406ad63fc13ae5a40000065") },
     { $pop: { interests: 1 } }
 )
-*/
 
 // $pull = remove an specific elem from array
 db.test.updateOne(
     { "_id": ObjectId("6406ad63fc13ae5a40000065") },
     { $pull:  {interests : "Swimming" }}
 )
+
+// $pullAll = remove multiple values from array
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065") },
+    { $pullAll:  {friends : ["Najmus Sakib", "Mir Hussain"] }}
+)
+
+// Update Objects
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065") },
+    {
+        $set: {
+            "address.city": "Dhaka",
+            "address.country": "Bangladesh"
+        }
+    }
+)
+
+// Update array of objects
+// $(update) => search google mongodb
+// positional operator, matches first match and updates
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065"), "education.degree": "Master of Science" },
+    {
+        $set: {
+            "education.$.major": "Computer Science",
+        }
+    }
+)
+
+// $inc = increments value
+db.test.updateOne(
+    { "_id": ObjectId("6406ad63fc13ae5a40000065") },
+    {
+        $inc: {
+            age: 1,
+        }
+    }
+)
+*/
