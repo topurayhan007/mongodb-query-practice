@@ -170,9 +170,10 @@ db.test.aggregate([
         }
     }
 ])
-*/
 
-// $lookup
+// two ways to keep data by: embedding and referencing
+// referencing used with foreign key to manage large data and 1:M M:M
+// $lookup: joining two tables/collection
 db.orders.aggregate([
     {
         $lookup: {
@@ -183,5 +184,12 @@ db.orders.aggregate([
         }
     }
 ])
+*/
 
+// Indexing: to fetch data much quicker by creating index
+// indexing used IDHACK 
+// db.test.find({"_id" : ObjectId("6406ad63fc13ae5a40000065")}).explain("executionStats")
+// indexing used COLLSCAN
+// db.test.find({"email" : "weffnert2r@networkadvertising.org"}).explain("executionStats")
+db.getCollection("massive-data").createIndex({ email: 1 })
 
