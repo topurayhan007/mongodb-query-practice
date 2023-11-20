@@ -89,15 +89,31 @@ db.test.aggregate([
         }
     }
 ])
-*/
- 
+
 // $unwind = makes separate document for each of the elem of an array field
 db.test.aggregate([
+    // stage1
+    { $unwind: "$friends" },
     // stage2
     {
         $group: {
-            _id: "$friends"
+            _id: "$friends",
+            count: { $sum: 1 },
         }
     },
 ])
+
+db.test.aggregate([
+    // stage1
+    { $unwind: "$interests" },
+    {
+        $group: {
+            _id: "$age",
+            interestsPerAge: { $push: "$interests" }
+        }
+    }
+])
+*/
+
+
 
