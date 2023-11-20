@@ -1,4 +1,3 @@
-/*
 
 // aggregation
 db.test.aggregate([
@@ -184,12 +183,19 @@ db.orders.aggregate([
         }
     }
 ])
-*/
 
 // Indexing: to fetch data much quicker by creating index
 // indexing used IDHACK 
-// db.test.find({"_id" : ObjectId("6406ad63fc13ae5a40000065")}).explain("executionStats")
+db.test.find({"_id" : ObjectId("6406ad63fc13ae5a40000065")}).explain("executionStats")
 // indexing used COLLSCAN
-// db.test.find({"email" : "weffnert2r@networkadvertising.org"}).explain("executionStats")
+db.test.find({"email" : "weffnert2r@networkadvertising.org"}).explain("executionStats")
 db.getCollection("massive-data").createIndex({ email: 1 })
 
+// Compound Index: multiple index
+
+// Search Index
+// create search index
+db.getCollection("massive-data").createIndex({ about: "text" })
+
+// find using search index
+db.getCollection("massive-data").find({ $text: { $search: "dolor" } }).project({ about: 1 })
