@@ -113,7 +113,34 @@ db.test.aggregate([
         }
     }
 ])
+
+// $bucket: this helps to organize group by a range by setting boundaries
+db.test.aggregate([
+    // stage1
+    {
+        $bucket: {
+            groupBy: "$age",
+            boundaries: [20, 40, 60, 80],
+            default: "80 er uporer bura gula",
+            output: {
+                count: { $sum: 1 },
+                karakaraAse: { $push: "$$ROOT" }
+            }
+        }
+    },
+    // stage2
+    {
+        $sort: { count: -1 }
+    },
+    // stage3
+    {
+        $limit: 3
+    },
+    // stage4
+    {
+        $project: { count: 1}
+    }
+])
 */
 
-
-
+// 
