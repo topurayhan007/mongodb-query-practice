@@ -143,4 +143,47 @@ db.test.aggregate([
 ])
 */
 
-// 
+// $facet = multi pipeline
+db.test.aggregate([
+    {
+        $facet: {
+            // pipeline1
+            "friendsCount" [
+                // stage1
+                { $unwind: "$friends" },
+                // stage2
+                {
+                    $group: {
+                        _id: "$friends",
+                        count: { $sum: 1 }
+                    }
+                }
+            ],
+            // pipeline2
+            "educationCount": [
+                // stage1
+                { $unwind: "$education" },
+                // stage2
+                {
+                    $group: {
+                        _id: "$education",
+                        count: { $sum: 1 }
+                    }
+                }
+            ],
+            // pipeline3
+            "skillsCount": [
+                // stage1
+                { $unwind: "$skills" },
+                // stage2
+                {
+                    $group: { 
+                        _id: "$skills",
+                        count: { $sum: 1 }
+                        
+                    }
+                }
+                ]
+        }
+    }
+])
