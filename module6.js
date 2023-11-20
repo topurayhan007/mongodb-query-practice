@@ -141,7 +141,6 @@ db.test.aggregate([
         $project: { count: 1}
     }
 ])
-*/
 
 // $facet = multi pipeline
 db.test.aggregate([
@@ -152,38 +151,37 @@ db.test.aggregate([
                 // stage1
                 { $unwind: "$friends" },
                 // stage2
-                {
-                    $group: {
-                        _id: "$friends",
-                        count: { $sum: 1 }
-                    }
-                }
+                { $group: { _id: "$friends", count: { $sum: 1 } } }
             ],
             // pipeline2
             "educationCount": [
                 // stage1
                 { $unwind: "$education" },
                 // stage2
-                {
-                    $group: {
-                        _id: "$education",
-                        count: { $sum: 1 }
-                    }
-                }
+                { $group: { _id: "$education", count: { $sum: 1 } } }
             ],
             // pipeline3
             "skillsCount": [
                 // stage1
                 { $unwind: "$skills" },
                 // stage2
-                {
-                    $group: { 
-                        _id: "$skills",
-                        count: { $sum: 1 }
-                        
-                    }
-                }
-                ]
+                { $group: { _id: "$skills", count: { $sum: 1 } } }
+            ]
         }
     }
 ])
+*/
+
+// $lookup
+db.orders.aggregate([
+    {
+        $lookup: {
+            from: "test",
+            localField: "userId",
+            foreignField: "_id",
+            as: "user"
+        }
+    }
+])
+
+
