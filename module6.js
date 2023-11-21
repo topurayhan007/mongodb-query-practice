@@ -1,4 +1,4 @@
-
+/*
 // aggregation
 db.test.aggregate([
     // stage1
@@ -199,3 +199,100 @@ db.getCollection("massive-data").createIndex({ about: "text" })
 
 // find using search index
 db.getCollection("massive-data").find({ $text: { $search: "dolor" } }).project({ about: 1 })
+
+
+// Practice Task:
+// 1
+db.getCollection("massive-data").aggregate([
+    { $match: { isActive: true } },
+    {
+        $group: {
+            _id: "$gender",
+            count: { $sum: 1 }
+        }
+    },
+])
+
+// 2
+db.getCollection("massive-data").aggregate([
+    { $match: { isActive: true, favoriteFruit: "banana" } },
+    { $project: { name: 1, email: 1 } },
+])
+
+// 3
+db.getCollection("massive-data").aggregate([
+    {
+        $group: {
+            _id: "$favoriteFruit",
+            averageAgeByFruit: { $avg: "$age" }
+        }
+    },
+    {
+        $sort: {averageAgeByFruit: -1}
+    }
+])
+
+// 4
+db.getCollection("massive-data").aggregate([
+    {
+        $match: {
+            friends: { $exists: true, $ne: [] }
+        }
+    },
+    {
+        $unwind: "$friends"
+    },
+    {
+        $match: {
+            "friends.name": /^W/
+        }
+    },
+    {
+        $group: {
+            _id: "$friends.name"
+        }
+    }
+])
+*/
+
+// 5
+db.getCollection("massive-data").aggregate([
+    {
+        $facet: {
+            // pipeline1
+            "ageBelow30": [
+                { $match: { age: { $lt: 30 } } },
+                {
+                    $bucket: {
+                        groupBy: "$age",
+                        boundaries: [20, 25, 30],
+                        default: "Other",
+                        output: {
+                            "count": { $sum: 1 },
+                            "names": { $push: "$name" }
+                        }
+                    }
+                },
+                { $unwind: "$names" },
+                { $sort: { "names": 1 } }
+            ],
+            // pipeline2
+            "ageAbove30": [
+                { $match: { age: { $gt: 30 } } },
+                {
+                    $bucket: {
+                        groupBy: "$age",
+                        boundaries: [30, 35, 40],
+                        default: "Other",
+                        output: {
+                            "count": { $sum: 1 },
+                            "names": { $push: "$name" }
+                        }
+                    }
+                },
+                { $unwind: "$names" },
+                { $sort: { "names": 1 } }
+            ]
+        }
+    }
+])
